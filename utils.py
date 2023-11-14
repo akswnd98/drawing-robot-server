@@ -10,7 +10,7 @@ MAX_RESOLUTION = 32767
 
 def make_svg (img, basepath):
   cv2.imwrite(os.path.join(basepath, 'file.bmp'), img)
-  subprocess.call(['.\\potrace\\potrace.exe', '-s', os.path.join(basepath, 'file.bmp'), '-o', os.path.join(basepath, 'file.svg')])
+  subprocess.call(['./potrace/potrace.exe', '-s', os.path.join(basepath, 'file.bmp'), '-o', os.path.join(basepath, 'file.svg')])
 
 def convert_paths_to_point_paths (paths):
   res = []
@@ -67,8 +67,8 @@ def cast_point_paths_to_int (point_paths):
   return res
 
 def test_get_paths ():
-  make_svg(cv2.imread('.\\file.png'), '.\\generates')
-  paths = svg2paths(os.path.join('.\\generates', 'file.svg'))[0]
+  make_svg(cv2.imread('./file.png'), './generates')
+  paths = svg2paths(os.path.join('./generates', 'file.svg'))[0]
   bbox = get_paths_bbox(paths)
   point_paths = convert_paths_to_point_paths(paths)
   point_paths = scale_point_paths_for_resolution(point_paths, bbox, [200, 287], MAX_RESOLUTION)

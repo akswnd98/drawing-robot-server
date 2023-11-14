@@ -17,10 +17,10 @@ app = Flask(__name__)
 def get_paths ():
   file = request.files['file']
   filename = secure_filename(file.filename)
-  filepath = os.path.join('.\\uploads', 'file{}'.format(os.path.splitext(filename)[-1]))
+  filepath = os.path.join('./uploads', 'file{}'.format(os.path.splitext(filename)[-1]))
   file.save(filepath)
-  utils.make_svg(cv2.imread(filepath), '.\\generates')
-  paths = svg2paths(os.path.join('.\\generates', 'file.svg'))[0]
+  utils.make_svg(cv2.imread(filepath), './generates')
+  paths = svg2paths(os.path.join('./generates', 'file.svg'))[0]
   bbox = utils.get_paths_bbox(paths)
   point_paths = utils.convert_paths_to_point_paths(paths)
   # point_paths = utils.scale_point_paths_for_resolution(point_paths, bbox, [200, 287], utils.MAX_RESOLUTION)
