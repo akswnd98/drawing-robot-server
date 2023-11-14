@@ -8,6 +8,8 @@ from svgpathtools import svg2paths
 from svgpathtools.path import CubicBezier, Line
 import numpy as np
 import matplotlib.pyplot as plt
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 
@@ -30,5 +32,6 @@ def get_paths ():
   }
 
 if __name__ == '__main__':
+  load_dotenv()
   CORS(app)
-  app.run()
+  app.run(host=os.getenv('HOST'), port=int(os.getenv('PORT')))
