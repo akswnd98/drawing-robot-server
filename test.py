@@ -6,10 +6,10 @@ from svgpathtools import svg2paths, document
 
 if __name__ == '__main__':
   utils.test_get_paths()
-  # img = cv2.imread('.\\file.png')
-  # utils.make_svg(img, '.')
+  # img = cv2.imread('./aaaaa.jpg')
+  # utils.make_svg_non_flask(img, '.')
 
-  # svg = svg2paths('.\\file.svg')
+  # svg = svg2paths('./file.svg')
   # paths = svg[0]
   # for path in paths:
   #   sp = int(path.length(0, 1) / 50)
