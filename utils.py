@@ -1,7 +1,7 @@
 import rembg as rbg
 import cv2
 import numpy as np
-from svgpathtools import svg2paths, Line
+from svgpathtools import svg2paths2, Line
 import subprocess
 import os
 import matplotlib.pyplot as plt
@@ -10,7 +10,6 @@ MAX_RESOLUTION = 32767
 
 def make_svg (img, basepath):
   cv2.imwrite(os.path.join(basepath, 'file.bmp'), img)
-  print(os.getenv('POTRACE_PATH'))
   subprocess.call([os.getenv('POTRACE_PATH'), '--fillcolor', '#ffffff', '-s', os.path.join(basepath, 'file.bmp'), '-o', os.path.join(basepath, 'file.svg')])
 
 def make_svg_non_flask (img, basepath):
@@ -44,7 +43,16 @@ def offset_point_paths (point_paths, offset):
 def scale_point_paths (point_paths, scale):
   res = []
   for point_path in point_paths:
-    res += [(np.array(point_path) * scale).tolist()]
+    res += [(np.array(point_path, dtype=np.float64) * scale).tolist()]
+  return res
+
+def flip_vertically_point_paths (point_paths):
+  res = []
+  for point_path in point_paths:
+    sub_res = []
+    for x, y in point_path:
+      sub_res += [[x, -y]]
+    res += [sub_res]
   return res
 
 def scatter_point_paths (point_paths):
@@ -77,7 +85,7 @@ def cast_point_paths_to_int (point_paths):
 
 def test_get_paths ():
   make_svg_non_flask(cv2.imread('./aaaaa.jpg'), './generates')
-  paths = svg2paths(os.path.join('./generates', 'file.svg'))[0]
+  paths = svg2paths2(os.path.join('./generates', 'file.svg'))[0]
   bbox = get_paths_bbox(paths)
   point_paths = convert_paths_to_point_paths(paths)
   point_paths = scale_point_paths_for_resolution(point_paths, bbox, [200, 287], MAX_RESOLUTION)
